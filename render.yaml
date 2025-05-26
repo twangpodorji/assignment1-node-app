@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: be-todo
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    envVars:
+      - key: DB_HOST
+        value: your-render-db-host
+      - key: DB_USER
+        value: your-render-db-user
+      - key: DB_PASSWORD
+        value: your-render-db-password
+      - key: DB_NAME
+        value: todo_db
+      - key: PORT
+        value: 5000
+    healthCheckPath: /api/tasks
+
+  - type: web
+    name: fe-todo
+    env: docker
+    dockerfilePath: ./frontend/Dockerfile
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://be-todo.onrender.com
+    
+  - type: postgresql
+    name: todo-db
+    ipAllowList: []
+    plan: free
+    databases:
+      - name: todo_db

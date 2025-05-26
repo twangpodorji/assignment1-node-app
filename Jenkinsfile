@@ -12,29 +12,45 @@ pipeline {
         // Stage 1: Checkout Code
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/twangpodorji/assignment1-node-app.git'
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: 'https://github.com/twangpodorji/assignment1-node-app.git']]
+                ])
+            }
+        }
+        
+        // Debug Workspace
+        stage('Debug Workspace') {
+            steps {
+                sh 'ls -la'
             }
         }
         
         // Stage 2: Install Dependencies
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                dir('backend') { // Change 'backend' to the correct directory if needed
+                    sh 'npm install'
+                }
             }
         }
         
         // Stage 3: Build (if applicable, e.g., for React/TypeScript)
         stage('Build') {
             steps {
-                sh 'npm run build || echo "No build script found, skipping build"'
+                dir('backend') { // Change 'backend' to the correct directory if needed
+                    sh 'npm run build || echo "No build script found, skipping build"'
+                }
             }
         }
         
         // Stage 4: Run Unit Tests
         stage('Test') {
             steps {
-                sh 'npm test || echo "No test script found, skipping tests"'
+                dir('backend') { // Change 'backend' to the correct directory if needed
+                    sh 'npm test || echo "No test script found, skipping tests"'
+                }
             }
             post {
                 always {

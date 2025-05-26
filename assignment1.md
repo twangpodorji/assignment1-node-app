@@ -16,7 +16,7 @@ Core implementation details(Key configurations):
 
 A sample UI for the Todo List application which wroks locally with "CRUD" operations is shown below:
 
-![alt text](images/smaple-repredentation-todo-ui.png)
+![alt text](assignment1-images/smaple-repredentation-todo-ui.png)
 
 ### Frontend or Client-Side Interface (React)
 
@@ -63,21 +63,21 @@ CMD ["npm", "start"]
 
 **Note:** For Mac OS users, the `--platform=linux/amd64` flag is necessary to ensure compatibility with Docker Hub's architecture for building and pushing to dockerhub, otherwise it will cause an error connection in Render as illustrated below:
 
-![alt text](<images/error(Without using amd64 linux).png>)
+![alt text](<assignment1-images/error(Without using amd64 linux).png>)
 
 2. Building and Pushing Images to Docker Hub
 
 - Built and Push Backend Docker Image:
 
-![alt text](images/dockerbuild-be-todo.png)
+![alt text](assignment1-images/dockerbuild-be-todo.png)
 
-![alt text](images/DockerPush-be-todo.png)
+![alt text](assignment1-images/DockerPush-be-todo.png)
 
 - Built and Push Frontend Docker Image:
 
-![alt text](images/Dockerbuild-fe-todo.png)
+![alt text](assignment1-images/Dockerbuild-fe-todo.png)
 
-![alt text](images/DockerPush-fe-todo.png)
+![alt text](assignment1-images/DockerPush-fe-todo.png)
 
 3. Deploying on Render.com
 
@@ -88,17 +88,17 @@ CMD ["npm", "start"]
   - Chose the "Use existing Docker image" option.
   - Selected the pre-built image: wangpo1642/be-todo:02230311.
 
-![alt text](images/existingimage-be-todo.png)
+![alt text](assignment1-images/existingimage-be-todo.png)
 
 - Configuring environment variables to establish the database connection.
 
-![alt text](images/environmental-variables.png)
+![alt text](assignment1-images/environmental-variables.png)
 
 - Results
   - Successfully deployed backend service with PostgreSQL database connection.
   - Backend service URL: https://be-todo-02230311.onrender.com
 
-![alt text](images/Result-be-todo(live).png)
+![alt text](assignment1-images/Result-be-todo(live).png)
 
 ![alt text](images/be-todo-live2.png)
 
@@ -107,7 +107,7 @@ Deploying frontend as a Web Service:
 - Chose the "Use existing Docker image" option.
 - Selected the pre-built image: wangpo1642/fe-todo:02230311.
 
-![alt text](images/existingimage-fe-feto.png)
+![alt text](assignment1-images/existingimage-fe-feto.png)
 
 - Configure REACT_APP_API_URL to point to the backend server address in the environment variables for the frontend service as shown below:
 ```REACT_APP_API_URL=https://fe-todo-02230311.onrender.com```
@@ -116,9 +116,9 @@ Deploying frontend as a Web Service:
   - Successfully deployed frontend service.
   - Frontend service URL: https://fe-todo-02230311.onrender.com 
 
-![alt text](images/Result-fe-todo(live).png)
+![alt text](assignment1-images/Result-fe-todo(live).png)
 
-![alt text](images/live-frontend.png)
+![alt text](assignment1-images/live-frontend.png)
 
 ## Part B: Automated Build and Deployment
 

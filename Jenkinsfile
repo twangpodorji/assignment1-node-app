@@ -12,11 +12,8 @@ pipeline {
         // Stage 1: Checkout Code
         stage('Checkout') {
             steps {
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: '*/main']],
-                    userRemoteConfigs: [[url: 'https://github.com/twangpodorji/assignment1-node-app.git']]
-                ])
+                git branch: 'main',
+                    url: 'https://github.com/twangpodorji/assignment1-node-app.git'
             }
         }
         
@@ -27,34 +24,66 @@ pipeline {
             }
         }
         
-        // Stage 2: Install Dependencies
-        stage('Install Dependencies') {
+        // Stage 2: Install Dependencies (Backend)
+        stage('Install Backend') {
             steps {
-                dir('backend') { // Change 'backend' to the correct directory if needed
+                dir('backend') {
                     sh 'npm install'
                 }
             }
         }
         
-        // Stage 3: Build (if applicable, e.g., for React/TypeScript)
-        stage('Build') {
+        // Stage 2b: Install Dependencies (Frontend)
+        stage('Install Frontend') {
             steps {
-                dir('backend') { // Change 'backend' to the correct directory if needed
-                    sh 'npm run build || echo "No build script found, skipping build"'
+                dir('frontend') {
+                    sh 'npm install'
                 }
             }
         }
         
-        // Stage 4: Run Unit Tests
-        stage('Test') {
+        // Stage 3: Build Backend (if applicable)
+        stage('Build Backend') {
             steps {
-                dir('backend') { // Change 'backend' to the correct directory if needed
-                    sh 'npm test || echo "No test script found, skipping tests"'
+                dir('backend') {
+                    sh 'npm run build || echo "No build script in backend, continuing"'
+                }
+            }
+        }
+        
+        // Stage 3b: Build Frontend (React/TypeScript)
+        stage('Build Frontend') {
+            steps {
+                dir('frontend') {
+                    sh 'npm run build'
+                }
+            }
+        }
+
+        // Stage 4: Run Backend Unit Tests
+        stage('Test Backend') {
+            steps {
+                dir('backend') {
+                    sh 'npm test || echo "No test script in backend, continuing"'
                 }
             }
             post {
                 always {
-                    junit allowEmptyResults: true, testResults: 'junit.xml'
+                    junit allowEmptyResults: true, testResults: 'backend/junit.xml'
+                }
+            }
+        }
+        
+        // Stage 4b: Run Frontend Unit Tests
+        stage('Test Frontend') {
+            steps {
+                dir('frontend') {
+                    sh 'npm test || echo "No test script in frontend, continuing"'
+                }
+            }
+            post {
+                always {
+                    junit allowEmptyResults: true, testResults: 'frontend/junit.xml'
                 }
             }
         }
@@ -84,12 +113,13 @@ pipeline {
             }
             steps {
                 script {
-                    echo 'Building Docker image...'
-                    def app = docker.build('wangpo1642/node-app:latest', '-f backend/Dockerfile backend/')
+                    // Build Docker image using backend Dockerfile
+                    sh 'docker build -t wangpo1642/node-app:latest -f backend/Dockerfile backend/'
                     
-                    echo 'Pushing to Docker Hub...'
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-creds') {
-                        app.push('latest')
+                    // Push to Docker Hub (requires credentials)
+                    withCredentials([string(credentialsId: 'docker-hub-creds', variable: 'DOCKER_PWD')]) {
+                        sh 'echo $DOCKER_PWD | docker login -u wangpo1642 --password-stdin'
+                        sh 'docker push wangpo1642/node-app:latest'
                     }
                 }
             }

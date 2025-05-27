@@ -1,6 +1,5 @@
 # Todo List Application ( CI/CD Integration )
 ## Creating the Todo List Application
-
 ### Server-Side Architecture and Data Layer (Node.js + PostgreSQL)
 
 - Developed an Express.js web server featuring RESTful API endpoints for comprehensive task  management (CURD) operations.

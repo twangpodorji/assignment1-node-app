@@ -41,7 +41,7 @@ jobs:
         continue-on-error: true
 
       # 6. Deploy Frontend to Render.com
-      - name: Deploy Frontend to Render
+      - name: Deploy Frontend to Render  
         run: |
           # If you have a deploy hook for the frontend:
           curl -X POST ${{ secrets.RENDER_FRONTEND_WEBHOOK_URL }}

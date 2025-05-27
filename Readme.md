@@ -106,3 +106,65 @@ Due to the Failure of Connection to Docker Demon, it does not get update to the 
 
 
 
+# Assignment III : Continuous Integration & Continuous Deployment with GitHub Actions.
+
+This project sets up an automated system that handles a Todo List app built with React (frontend) and Node.js (backend). Whenever code changes are made and being pushed, GitHub Actions automatically builds the app, runs tests, packages everything into Docker containers, and deploys it to the cloud using Render.com. This removes the need for manual deployment and ensures the app is always up-to-date.
+
+#### Github Actions implementation.
+
+1. Checked the Project Structure
+     - Made sure both the frontend and backend folders had their package.json files with the right build commands.
+     - Verified that each folder had a Dockerfile to create containers.
+     - Set the GitHub repository to public so the automation could work properly.
+
+2. Set Up Automated Building and Deployment
+     - Created a workflow file that automatically handles building, testing, and deploying the app whenever changes are made to the code.
+     
+#### Setting Up GitHub Actions Workflow
+
+Complete workflow file is created in the `.github/workflows` directory of the repository. The file is named `ci-cd.yml` and contains the code snippet like shown below:
+
+![alt text](<assignment3-images /cicd-yml-file.png>)
+
+#### Setting Up Private Information (GitHub Secrets Configuration)
+
+1. Added Security Keys
+     - DOCKERHUB_USERNAME: Your DockerHub account name
+     - DOCKERHUB_TOKEN: A special password created from your DockerHub account settings for secure access
+
+These secrets let GitHub Actions safely connect to your DockerHub account without exposing your login details in the code.
+
+![alt text](<assignment3-images /token.png>)
+![alt text](<assignment3-images /token-dockerhub.png>)
+![alt text](<assignment3-images /token-github.png>)
+
+RENDER_BACKEND_WEBHOOK_URL: Webhook URL for frontend service deployment
+
+![alt text](<assignment3-images /be-hook.png>)
+
+RENDER_FRONTEND_WEBHOOK_URL: Webhook URL for backend service deployment
+
+![alt text](<assignment3-images /fe-hook.png>)
+
+#### Setting Up Cloud Hosting
+
+The frontend and backend apps were already deployed to Render.com from the first assignment
+
+**1. Testing the Automated System**
+
+**First Test Run**
+
+Saved all the automation files to the repository
+Uploaded the changes to the main branch
+Watched the GitHub Actions section to see the automation working
+Confirmed that each step completed without errors
+
+![alt text](<assignment3-images /final-result.png>)
+
+**2. Deployment Verification**
+
+Verified that the Docker containers were successfully created and uploaded to your DockerHub account.
+
+![alt text](<assignment3-images /web-hook-result-be.png>)
+![alt text](<assignment3-images /web-hook-result-fe.png>)
+
